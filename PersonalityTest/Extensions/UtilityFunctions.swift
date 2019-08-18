@@ -12,7 +12,10 @@ import AVFoundation
 class UtilityFunctions {
     
     // alert view controller
-    class func show(alert title:String? , message:String?  , buttonOk: @escaping () -> () , viewController: UIViewController , buttonTextOK: String?, buttonTextCancel: String? , buttonCancel: (() -> ())?  ){
+    
+    static let shared = UtilityFunctions()
+    
+    func show(alert title:String? , message:String?  , buttonOk: @escaping () -> () , viewController: UIViewController , buttonTextOK: String?, buttonTextCancel: String? , buttonCancel: (() -> ())?  ){
         
         let alertController = UIAlertController(title: title, message: message , preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: buttonTextOK , style: UIAlertAction.Style.cancel, handler: {  (action) in

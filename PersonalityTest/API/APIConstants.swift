@@ -16,6 +16,7 @@ internal struct APIConstants {
     }
     
     static let getQuestions = "/s5vez"
+    static let submitQuestions = "/s5vez"
     
 }
 
@@ -26,11 +27,9 @@ enum MyError: Error {
 // MARK: - Keys
 enum Keys : String{
     
-    case firstName = "first_name"
-    case lastName = "last_name"
-    case email = "email"
-    case phoneNumber = "phone_number"
-    case favorite = "favorite"
+    case category = "category"
+    case selectedOption = "selected_option"
+
     
 }
 
@@ -55,7 +54,7 @@ enum Validate : Int {
 }
 
 struct Parameters {
-    static let addContact : [Keys] = [.firstName, .lastName, .email, .phoneNumber, .favorite]
+    static let submitQuestions : [Keys] = [.category, .selectedOption]
 }
 
 typealias OptionalDictionary = [String : Any]?

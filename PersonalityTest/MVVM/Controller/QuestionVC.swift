@@ -2,29 +2,125 @@
 //  QuestionVC.swift
 //  PersonalityTest
 //
-//  Created by Saif Chaudhary on 18/08/19.
+//  Created by Taran on 18/08/19.
 //  Copyright © 2019 Taranjeet_MacBook. All rights reserved.
 //
 
 import UIKit
 
-class QuestionVC: UIViewController {
-
+class QuestionVC: BaseVC {
+    
+    //MARK:- Outlets
+    @IBOutlet weak var lblQuestion: UILabel!
+    @IBOutlet weak var btnNext: UIButton!
+    @IBOutlet weak var btnPrevious: UIButton!
+    @IBOutlet weak var btnSubmit: UIButton!
+    
+    //MARK:- Custom Properties
+    var questionArray : [Questions]?
+    var currentIndex = 0
+    lazy var viewModel = QuestionViewModal()
+    
+    //MARK:- viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupData()
+        setupTableview()
+        viewModel.delegate = self
+    }
+}
 
-        // Do any additional setup after loading the view.
+//MARK:- setupTableview
+extension QuestionVC {
+    
+    func setupTableview(){
+        dataSource = TableViewDataSource(items: questionArray?[currentIndex].questionType?.options , height: 56, tableView: tableView, cellIdentifier: .QuestionCell)
+        
+        dataSource?.configureCellBlock = {(cell,item,indexPath) in
+            (cell as? UITableViewCell)?.textLabel?.text = (item as? String)?.capitalized
+            (cell as? UITableViewCell)?.accessoryType = indexPath.row == self.questionArray?[self.currentIndex].questionType?.selectedAnswer ? .checkmark : .none
+            
+        }
+        
+        dataSource?.aRowSelectedListener = {[unowned self](indexPath) in
+            self.questionArray?[self.currentIndex].questionType?.selectedAnswer = indexPath.row
+            self.dataSource?.items = self.questionArray?[self.currentIndex].questionType?.options
+            self.tableView.reloadData()
+            self.checkIfQuestionAnswered()
+            
+        }
+        
     }
     
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+//MARK:- setupUI elements
+extension QuestionVC{
+    
+    func reloadData(isNext : Bool){
+        currentIndex = isNext ? currentIndex + 1 : currentIndex - 1
+        if currentIndex < /questionArray?.count{
+            dataSource?.items = questionArray?[currentIndex].questionType?.options
+            tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+            btnPrevious.isEnabled = currentIndex != 0
+            setupData()
+        }
     }
-    */
+    
+    func setNavAttempsTitle(){
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(currentIndex+1)/" + "\(/questionArray?.count)" , style: .plain, target: nil, action: nil)
+        checkIfQuestionAnswered()
+    }
+    
+    func setupData(){
+        lblQuestion?.text = "Q\(currentIndex + 1) : " + "\(/questionArray?[currentIndex].question)"
+        navigationItem.title = /questionArray?[currentIndex].category?.capitalized
+        setNavAttempsTitle()
+    }
+}
 
+//MARK:- QuestionViewModalListener
+extension QuestionVC : QuestionViewModalListener {
+    
+    func reloadData(value :Any?){ // reload data and back to category screen
+        
+        UtilityFunctions.shared.show(alert: StaticString.success , message: StaticString.questionSubitMsg, buttonOk: {[weak self] in
+            _ = self?.questionArray?.map({$0.questionType?.selectedAnswer = nil})
+            self?.navigationController?.popViewController(animated: true)
+        }, viewController: self, buttonTextOK: StaticString.ok , buttonTextCancel: nil, buttonCancel: nil)
+       
+    }
+    
+    
+    func showErrorMessage(error :String?){ // show error message
+        UtilityFunctions.shared.show(alert: StaticString.opps, message: error , buttonOk: {
+        }, viewController: self, buttonTextOK: StaticString.ok, buttonTextCancel: StaticString.retry, buttonCancel:{[unowned self] in
+            self.actionBtnSubmit(self.btnSubmit)
+        })
+        
+    }
+    
+    func checkIfQuestionAnswered(){
+        btnNext.isEnabled = questionArray?[currentIndex].questionType?.selectedAnswer != nil && currentIndex != (/questionArray?.count - 1)
+        self.btnSubmit.isHidden = !(questionArray?[currentIndex].questionType?.selectedAnswer != nil && currentIndex == (/questionArray?.count - 1))
+    }
+}
+
+//MARK:- IBAction
+
+extension QuestionVC {
+    
+    @IBAction func actionBtnPrevious(_ sender: Any) {
+        reloadData(isNext: false)
+    }
+    
+    @IBAction func actionBtnNext(_ sender: Any) {
+        reloadData(isNext: true)
+    }
+    
+    @IBAction func actionBtnSubmit(_ sender: UIButton) {
+        let selectedIndex = questionArray?.map({/$0.questionType?.selectedAnswer})
+        viewModel.submitQuestions(category: questionArray?[currentIndex - 1].category, selectedOptions: selectedIndex)
+    }
 }

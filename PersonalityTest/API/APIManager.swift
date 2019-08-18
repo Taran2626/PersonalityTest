@@ -10,6 +10,7 @@
 import Foundation
 import UIKit
 
+
 // MARK: - APIManager
 class APIManager{
     
@@ -18,9 +19,8 @@ class APIManager{
     
     func request(with api : Router , completion : @escaping (Result<Any?,Error>) -> () )  {
         
-        let object = api.handle(data: getJsonFromFile() as? Data)
-        completion(.success(object))
-        return
+        #warning("remove return to get response from api")
+        completion(.success(getDataFromLocalJsonFile(api:api)))
         
         httpClient.postRequest(withApi:api , success: { (response) in
             let object = api.handle(data: response as? Data)
@@ -33,10 +33,11 @@ class APIManager{
         
     }
     
-    func getJsonFromFile()->Any?{
-        
+
+    func getDataFromLocalJsonFile(api : Router)->Any?{ // getting data from json file
         guard let path = Bundle.main.path(forResource: "TestJson", ofType: "json") else {return nil}
-        return try? Data(contentsOf:URL(fileURLWithPath: path) , options: .alwaysMapped)
+        let data = try? Data(contentsOf:URL(fileURLWithPath: path) , options: .alwaysMapped)
+        return api.handle(data: data)
     }
 }
 

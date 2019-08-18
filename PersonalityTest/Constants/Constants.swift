@@ -11,6 +11,7 @@ import UIKit
 
 enum CellIdentifiers: String {
     case CategoryListCell = "CategoryListCell"
+    case QuestionCell = "QuestionCell"
 }
 
 
@@ -22,23 +23,17 @@ enum PhotoSourceType {
 
 struct StaticString {
     
-    static let refreshTitle = "Pull to refresh"
     static let opps = "Opps"
     static let ok = "Ok"
     static let retry = "Retry"
     static let notAvailable = "not available"
     static let success = "Success"
-    static let contactAdded = "Contact Added"
-    static let selectOption = "Select Option"
-    static let camera = "Camera"
-    static let gallery = "Gallery"
-    static let cancel =  "Cancel"
-    static let contactEditedSuccessfully =  "Contact edited successfully"
+    static let questionSubitMsg = "Your answer are submitted"
     
 }
 
 struct SegueString {
     
-    static let segueContactDetails = "segueContactDetails"
+    static let segueQuestions = "SegueQuestions"
     
 }

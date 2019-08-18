@@ -21,8 +21,10 @@ extension APIEndpoint {
             }catch _ {
                 return nil
             }
-            
+            case .submitQuestions(_): return nil
         }
+        
+        
         
     }
     

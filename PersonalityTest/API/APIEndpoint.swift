@@ -36,6 +36,7 @@ extension Sequence where Iterator.Element == Keys {
 enum APIEndpoint {
     
     case getQuestions
+    case submitQuestions(category : String?,selectedOption : [Int]?)
     
 }
 
@@ -46,7 +47,9 @@ extension APIEndpoint : Router{
         
         switch self {
         case .getQuestions: return APIConstants.getQuestions
+        case .submitQuestions: return APIConstants.submitQuestions
         }
+        
     }
     
     var parameters: OptionalDictionary{
@@ -59,12 +62,15 @@ extension APIEndpoint : Router{
         switch self {
         case .getQuestions :
             return nil
+        case .submitQuestions(let category,let selectedOption) :
+            return Parameters.submitQuestions.map(values: [category, selectedOption])
             
         }
     }
     
     var method : Alamofire.HTTPMethod {
         switch self {
+        case .submitQuestions(_) : return .post
         default: return .get
         }
     }

@@ -2,7 +2,7 @@
 //  PersonalityTestUITests.swift
 //  PersonalityTestUITests
 //
-//  Created by taran on 17/08/19.
+//  Created by Taran on 17/08/19.
 //  Copyright © 2019 Taranjeet_MacBook. All rights reserved.
 //
 

@@ -24,13 +24,10 @@ class CategoriesListVC: BaseVC {
     //MARK:- setupData
     func setupData(){
         setupTableview()
-        getQuestionsList()
-    }
-    
-     func getQuestionsList(){
         viewModel.delegate = self
         viewModel.getQuestionsList()
     }
+
 }
 
 //MARK:- setupTableview
@@ -41,19 +38,26 @@ extension CategoriesListVC {
         
         dataSource?.configureCellBlock = {(cell,item,indexPath) in
             (cell as? UITableViewCell)?.textLabel?.text = (item as? String)?.capitalized
-
         }
         
-        dataSource?.aRowSelectedListener = {[unowned self](indexPath) in
-            self.performSegue(withIdentifier: SegueString.segueContactDetails, sender: indexPath)
+        dataSource?.aRowSelectedListener = {[weak self](indexPath) in
+            self?.performSegue(withIdentifier: SegueString.segueQuestions, sender: indexPath)
         }
         
     }
     
 }
 
-//MARK:- ContactApiListener
+//MARK:- GetQuestions
+extension CategoriesListVC {
+    
+    func getQuestions(index : Int)->[Questions]?{
+        return questionModal?.Questions?.filter({$0.category == questionModal?.categories?[index]})
+        
+    }
+}
 
+//MARK:- CategoryApiListener
 extension CategoriesListVC : CategoryListener {
     
     func reloadData(value :Any?){ // reload data to screen
@@ -66,9 +70,9 @@ extension CategoriesListVC : CategoryListener {
     
     
     func showErrorMessage(error :String?){ // show error message
-        UtilityFunctions.show(alert: StaticString.opps, message: error , buttonOk: {
+        UtilityFunctions.shared.show(alert: StaticString.opps, message: error , buttonOk: {
         }, viewController: self, buttonTextOK: StaticString.ok, buttonTextCancel: StaticString.retry, buttonCancel:{[weak self] in
-            self?.getQuestionsList()
+            self?.viewModel.getQuestionsList()
         })
         
     }
@@ -76,7 +80,7 @@ extension CategoriesListVC : CategoryListener {
 
 //MARK:- prepare for segue
 extension CategoriesListVC {
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        (segue.destination as? QuestionVC)?.questionArray = getQuestions(index: /(sender as? IndexPath)?.row)
     }
 }

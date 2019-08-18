@@ -1,8 +1,8 @@
 //
-//  ContactDetailViewModel.swift
+//  CategoriesListViewModal.swift
 //  PersonalityTest
 //
-//  Created by Taran  on 23/06/19.
+//  Created by Taran  on 17/08/19.
 //  Copyright © 2019 Macbook_Taranjeet. All rights reserved.
 //
 

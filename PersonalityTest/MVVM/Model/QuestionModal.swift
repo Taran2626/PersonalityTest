@@ -31,6 +31,7 @@ class Questions : Decodable  {
 class QuestionType : Decodable{
     var type : String?
     var options : [String]?
+    var selectedAnswer : Int?
 }
 
 
