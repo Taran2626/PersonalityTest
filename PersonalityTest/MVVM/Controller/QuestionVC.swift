@@ -21,6 +21,15 @@ class QuestionVC: BaseVC {
     var currentIndex = 0
     lazy var viewModel = QuestionViewModal()
     
+    //MARK:- dataSource
+    var dataSource = TableViewDataSource(){
+        didSet{
+            tableView.dataSource = dataSource
+            tableView.delegate = dataSource
+        }
+    }
+    
+    
     //MARK:- viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +61,7 @@ extension QuestionVC{
     func reloadData(isNext : Bool){
         currentIndex = isNext ? currentIndex + 1 : currentIndex - 1
         if currentIndex < /questionArray?.count{
-            dataSource?.items = questionArray?[currentIndex].questionType?.options
+            dataSource.items = questionArray?[currentIndex].questionType?.options
             tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
             btnPrevious.isEnabled = currentIndex != 0
             setupData()
@@ -62,6 +71,7 @@ extension QuestionVC{
     func setNavAttempsTitle(){
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(currentIndex+1)/" + "\(/questionArray?.count)" , style: .plain, target: nil, action: nil)
+        self.navigationItem.rightBarButtonItem?.accessibilityIdentifier = "itemLabel"
         checkIfQuestionAnswered()
     }
     
@@ -82,17 +92,17 @@ extension QuestionVC{
 extension QuestionVC {
     
     func setupTableview(){
-        dataSource = TableViewDataSource(items: questionArray?[currentIndex].questionType?.options , height: 56, tableView: tableView, cellIdentifier: .QuestionCell)
+        dataSource = TableViewDataSource(items: questionArray?[currentIndex].questionType?.options , height: UITableView.automaticDimension, tableView: tableView, cellIdentifier: .QuestionCell)
         
-        dataSource?.configureCellBlock = {(cell,item,indexPath) in
-            (cell as? UITableViewCell)?.textLabel?.text = (item as? String)?.capitalized
-            (cell as? UITableViewCell)?.accessoryType = indexPath.row == self.questionArray?[self.currentIndex].questionType?.selectedAnswer ? .checkmark : .none
+        dataSource.configureCellBlock = {(cell,item,indexPath) in
+            (cell as? QuestionCell)?.lblOption?.text = (item as? String)?.capitalized
+            (cell as? QuestionCell)?.accessoryType = indexPath.row == self.questionArray?[self.currentIndex].questionType?.selectedAnswer ? .checkmark : .none
             
         }
         
-        dataSource?.aRowSelectedListener = {[unowned self](indexPath) in
+        dataSource.aRowSelectedListener = {[unowned self](indexPath) in
             self.questionArray?[self.currentIndex].questionType?.selectedAnswer = indexPath.row
-            self.dataSource?.items = self.questionArray?[self.currentIndex].questionType?.options
+            self.dataSource.items = self.questionArray?[self.currentIndex].questionType?.options
             self.tableView.reloadData()
             self.checkIfQuestionAnswered()
             

@@ -15,6 +15,14 @@ class CategoriesListVC: BaseVC {
     lazy var viewModel = CategoriesListViewModal()
     var questionModal : QuestionModal?
     
+    //MARK:- dataSource
+    var dataSource = TableViewDataSource(){
+        didSet{
+            tableView.dataSource = dataSource
+            tableView.delegate = dataSource
+        }
+    }
+    
     //MARK:- viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,15 +45,15 @@ class CategoriesListVC: BaseVC {
         
         viewModel.onSuccess = {[weak self] value in
             self?.questionModal = value as? QuestionModal
-            self?.dataSource?.items = self?.questionModal?.categories
+            self?.dataSource.items = self?.questionModal?.categories
             DispatchQueue.main.async {[weak self] in
-                self?.dataSource?.tableView?.reloadData()
+                self?.dataSource.tableView?.reloadData()
             }
         }
         
         viewModel.getQuestionsList()
     }
-
+    
 }
 
 //MARK:- setupTableview
@@ -54,11 +62,11 @@ extension CategoriesListVC {
     func setupTableview(){
         dataSource = TableViewDataSource(items: questionModal?.categories , height: 56, tableView: tableView, cellIdentifier: .CategoryListCell)
         
-        dataSource?.configureCellBlock = {(cell,item,indexPath) in
+        dataSource.configureCellBlock = {(cell,item,indexPath) in
             (cell as? CategoryListCell)?.lblCategory?.text = (item as? String)?.capitalized
         }
         
-        dataSource?.aRowSelectedListener = {[weak self](indexPath) in
+        dataSource.aRowSelectedListener = {[weak self](indexPath) in
             self?.performSegue(withIdentifier: SegueString.segueQuestions, sender: indexPath)
         }
         

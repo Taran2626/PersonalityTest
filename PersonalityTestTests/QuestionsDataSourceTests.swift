@@ -1,22 +1,22 @@
 //
-//  CategoriesDataSourceTests.swift
+//  QuestionsDataSourceTests.swift
 //  PersonalityTestTests
 //
-//  Created by Taran on 21/08/19.
-//  Copyright © 2019 Macbook_Taranjeet. All rights reserved.
+//  Created by Taran on 22/08/19.
+//  Copyright © 2019 Taranjeet_MacBook. All rights reserved.
 //
 
 import XCTest
 @testable import PersonalityTest
 
-class CategoriesDataSourceTests: XCTestCase {
+class QuestionsDataSourceTests: XCTestCase {
     
     var dataSource : TableViewDataSource!
-    var systemUnderTest : CategoriesListVC!
+    var systemUnderTest : QuestionVC!
     
     override func setUp() {
         super.setUp()
-        systemUnderTest = CategoriesListVC()
+        systemUnderTest = QuestionVC()
         dataSource = systemUnderTest.dataSource
     }
     
@@ -44,11 +44,11 @@ class CategoriesDataSourceTests: XCTestCase {
     func testValueInDataSource() {
         
         // giving data value
-        let modal1 = QuestionModal(categories: ["A","B"], questions: [Questions(question: "Ques", category: "A", questionType: QuestionType(type: "A", options: ["a","b","c"], selectedAnswer: nil)), Questions(question: "Ques", category: "B", questionType: QuestionType(type: "A", options: ["a","b"], selectedAnswer: nil))])
+        let option1 = "Option1"
         
-        let modal2 = QuestionModal(categories: ["A"], questions: [Questions(question: "Ques", category: "A", questionType: QuestionType(type: "A", options: ["a","b","c"], selectedAnswer: nil))])
+        let option2 = "Option2"
         
-        dataSource.items = [modal1, modal2]
+        dataSource.items = [option1, option2]
         
         let tableView = UITableView()
         tableView.dataSource = dataSource
@@ -63,20 +63,21 @@ class CategoriesDataSourceTests: XCTestCase {
     func testValueCell() {
         
         // giving data value
-        let modal = QuestionModal(categories: ["A"], questions: [Questions(question: "Ques", category: "A", questionType: QuestionType(type: "A", options: ["a","b","c"], selectedAnswer: nil))])
-        dataSource.items = [modal]
-        dataSource.cellIdentifier = "CategoryListCell"
-        
+        let option1 = "Option1"
+
+        dataSource.items = [option1]
+        dataSource.cellIdentifier = "QuestionCell"
+    
         let tableView = UITableView()
         tableView.dataSource = dataSource
-        tableView.register(CategoryListCell.self, forCellReuseIdentifier: "CategoryListCell")
+        tableView.register(QuestionCell.self, forCellReuseIdentifier: "QuestionCell")
         
         let indexPath = IndexPath(row: 0, section: 0)
         
-        // expected CategoryListCell class
-        guard let _ = dataSource.tableView(tableView, cellForRowAt: indexPath) as? CategoryListCell else {
-            XCTAssert(false, "Expected CategoryListCell class")
+        // expected QuestionCell class
+        guard let _ = dataSource.tableView(tableView, cellForRowAt: indexPath) as? QuestionCell else {
+            XCTAssert(false, "Expected QuestionCell class")
             return
-        }
+        }        
     }
 }

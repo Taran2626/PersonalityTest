@@ -17,15 +17,6 @@ class BaseVC: UIViewController {
         }
     }
     
-    
-    //MARK:- dataSource
-    var dataSource: TableViewDataSource?{
-        didSet{
-            tableView.dataSource = dataSource
-            tableView.delegate = dataSource
-        }
-    }
-    
     //MARK:- viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
