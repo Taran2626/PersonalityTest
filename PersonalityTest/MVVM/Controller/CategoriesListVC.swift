@@ -2,7 +2,7 @@
 //  CategoriesListVC.swift
 //  PersonalityTest
 //
-//  Created by Taran  on 17/08/19.
+//  Created by Taran on 17/08/19.
 //  Copyright © 2019 Macbook_Taranjeet. All rights reserved.
 //
 
@@ -55,7 +55,7 @@ extension CategoriesListVC {
         dataSource = TableViewDataSource(items: questionModal?.categories , height: 56, tableView: tableView, cellIdentifier: .CategoryListCell)
         
         dataSource?.configureCellBlock = {(cell,item,indexPath) in
-            (cell as? UITableViewCell)?.textLabel?.text = (item as? String)?.capitalized
+            (cell as? CategoryListCell)?.lblCategory?.text = (item as? String)?.capitalized
         }
         
         dataSource?.aRowSelectedListener = {[weak self](indexPath) in

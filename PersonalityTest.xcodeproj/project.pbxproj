@@ -11,7 +11,10 @@
 		800D0C204DD0361E2F413413 /* Pods_PersonalityTestUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F106711095875A1C7494BA27 /* Pods_PersonalityTestUITests.framework */; };
 		854E2F24230E3FF200B1DE0C /* FileDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E2F22230E3FF200B1DE0C /* FileDataService.swift */; };
 		854E2F25230E3FF200B1DE0C /* APICallService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E2F23230E3FF200B1DE0C /* APICallService.swift */; };
-		B05E264923083E11007C7B1E /* PersonalityTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05E264823083E11007C7B1E /* PersonalityTestTests.swift */; };
+		854E2F28230E41EB00B1DE0C /* CategoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E2F27230E41EB00B1DE0C /* CategoryListCell.swift */; };
+		854E2F2C230E433900B1DE0C /* CategoriesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E2F29230E433800B1DE0C /* CategoriesViewModelTests.swift */; };
+		854E2F2D230E433900B1DE0C /* CategoriesServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E2F2A230E433900B1DE0C /* CategoriesServiceTests.swift */; };
+		854E2F2E230E433900B1DE0C /* CategoriesDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854E2F2B230E433900B1DE0C /* CategoriesDataSourceTests.swift */; };
 		B05E265423083E11007C7B1E /* PersonalityTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05E265323083E11007C7B1E /* PersonalityTestUITests.swift */; };
 		B05E269323083F71007C7B1E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05E266323083F70007C7B1E /* Constants.swift */; };
 		B05E269723083F71007C7B1E /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05E266A23083F70007C7B1E /* UtilityFunctions.swift */; };
@@ -60,11 +63,14 @@
 		5792A6A26ADA839AF00140BC /* Pods-PersonalityTestUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PersonalityTestUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PersonalityTestUITests/Pods-PersonalityTestUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		854E2F22230E3FF200B1DE0C /* FileDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDataService.swift; sourceTree = "<group>"; };
 		854E2F23230E3FF200B1DE0C /* APICallService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICallService.swift; sourceTree = "<group>"; };
+		854E2F27230E41EB00B1DE0C /* CategoryListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryListCell.swift; sourceTree = "<group>"; };
+		854E2F29230E433800B1DE0C /* CategoriesViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewModelTests.swift; sourceTree = "<group>"; };
+		854E2F2A230E433900B1DE0C /* CategoriesServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesServiceTests.swift; sourceTree = "<group>"; };
+		854E2F2B230E433900B1DE0C /* CategoriesDataSourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesDataSourceTests.swift; sourceTree = "<group>"; };
 		A6CACE9029D3ED28A3AADAC1 /* Pods_PersonalityTestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PersonalityTestTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A98E6A96E7B8735BE0ADE3F1 /* Pods-PersonalityTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PersonalityTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-PersonalityTest/Pods-PersonalityTest.release.xcconfig"; sourceTree = "<group>"; };
 		B05E263023083E0F007C7B1E /* PersonalityTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersonalityTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B05E264423083E11007C7B1E /* PersonalityTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersonalityTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B05E264823083E11007C7B1E /* PersonalityTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalityTestTests.swift; sourceTree = "<group>"; };
 		B05E264A23083E11007C7B1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B05E264F23083E11007C7B1E /* PersonalityTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersonalityTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B05E265323083E11007C7B1E /* PersonalityTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalityTestUITests.swift; sourceTree = "<group>"; };
@@ -121,6 +127,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		854E2F26230E41EB00B1DE0C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				854E2F27230E41EB00B1DE0C /* CategoryListCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		92F24865B6052042BFF39AC2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,7 +183,9 @@
 		B05E264723083E11007C7B1E /* PersonalityTestTests */ = {
 			isa = PBXGroup;
 			children = (
-				B05E264823083E11007C7B1E /* PersonalityTestTests.swift */,
+				854E2F2A230E433900B1DE0C /* CategoriesServiceTests.swift */,
+				854E2F2B230E433900B1DE0C /* CategoriesDataSourceTests.swift */,
+				854E2F29230E433800B1DE0C /* CategoriesViewModelTests.swift */,
 				B05E264A23083E11007C7B1E /* Info.plist */,
 			);
 			path = PersonalityTestTests;
@@ -187,6 +203,7 @@
 		B05E266123083F70007C7B1E /* PersonalityTest */ = {
 			isa = PBXGroup;
 			children = (
+				854E2F26230E41EB00B1DE0C /* Cells */,
 				B05E267523083F70007C7B1E /* AppDelegate */,
 				B05E266F23083F70007C7B1E /* API */,
 				B05E266223083F70007C7B1E /* Constants */,
@@ -400,6 +417,7 @@
 					};
 					B05E264323083E10007C7B1E = {
 						CreatedOnToolsVersion = 10.3;
+						LastSwiftMigration = 1020;
 						TestTargetID = B05E262F23083E0F007C7B1E;
 					};
 					B05E264E23083E11007C7B1E = {
@@ -539,6 +557,7 @@
 				B05E269823083F71007C7B1E /* Unwrap.swift in Sources */,
 				B05E269B23083F71007C7B1E /* APIConstants.swift in Sources */,
 				B05E269D23083F71007C7B1E /* HTTPClient.swift in Sources */,
+				854E2F28230E41EB00B1DE0C /* CategoryListCell.swift in Sources */,
 				B05E26B923094414007C7B1E /* QuestionViewModal.swift in Sources */,
 				B05E26A423083F71007C7B1E /* BaseVC.swift in Sources */,
 				B05E26A723083F71007C7B1E /* CategoriesListVC.swift in Sources */,
@@ -560,7 +579,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B05E264923083E11007C7B1E /* PersonalityTestTests.swift in Sources */,
+				854E2F2E230E433900B1DE0C /* CategoriesDataSourceTests.swift in Sources */,
+				854E2F2C230E433900B1DE0C /* CategoriesViewModelTests.swift in Sources */,
+				854E2F2D230E433900B1DE0C /* CategoriesServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -710,7 +731,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W3V87F9C6P;
 				INFOPLIST_FILE = "$(SRCROOT)/PersonalityTest/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -728,7 +751,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W3V87F9C6P;
 				INFOPLIST_FILE = "$(SRCROOT)/PersonalityTest/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -746,6 +771,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = PersonalityTestTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -755,6 +781,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.PersonalityTestTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PersonalityTest.app/PersonalityTest";
@@ -767,6 +794,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = PersonalityTestTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
