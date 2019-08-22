@@ -8,30 +8,35 @@
 
 import UIKit
 
-protocol QuestionViewModalListener: class {
-    func reloadData(value :Any?)
-    func showErrorMessage(error :String?)
-}
-
 class QuestionViewModal {
     
-    weak var delegate: QuestionViewModalListener?
+    weak var service: QuestionsServiceProtocol?
+    
+    var onErrorHandling : ((String?) -> Void)?
+    var onSuccess : ((Any?) -> Void)?
+    
+    init(service: QuestionsServiceProtocol = FileDataService.shared) { // change to API Call Service if necessary
+        self.service = service
+    }
     
     //MARK:- submitQuestions
     
     func submitQuestions(category : String? , selectedOptions : [Int]?){
         
-        APIManager.shared.request(with: APIEndpoint.submitQuestions(category: category, selectedOption: selectedOptions)) {[weak self] (response) in
-            switch response {
-            case .success(let data):
-                self?.delegate?.reloadData(value: data)
-            case .failure(let error):
-                self?.delegate?.showErrorMessage(error: error.localizedDescription)
-                
-            }
-            
+        guard let service = service else {
+            onErrorHandling?(StaticString.missingService)
+            return
         }
         
+        service.request(with: APIEndpoint.submitQuestions(category: category, selectedOption: selectedOptions)) {[weak self] (response) in
+            
+            switch response {
+            case .success(let data):
+                self?.onSuccess?(data)
+                
+            case .failure(let error):
+                self?.onErrorHandling?(error.localizedDescription)
+            }
+        }
     }
-    
 }

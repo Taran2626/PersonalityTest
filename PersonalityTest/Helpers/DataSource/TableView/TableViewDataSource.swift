@@ -29,15 +29,13 @@ class TableViewDataSource: NSObject  {
     var viewforHeaderInSection : ViewForHeaderInSection?
     var headerHeight : CGFloat? = 0.0
     var willDisplayCell: WillDisplayTableViewCellBlock?
-    var isFromType = false
     
     //init method
-    init (items : Array<Any>? , height : CGFloat , tableView : UITableView? , cellIdentifier : CellIdentifiers?,isFromType : Bool = false) {
+    init (items : Array<Any>? , height : CGFloat , tableView : UITableView? , cellIdentifier : CellIdentifiers?) {
         self.tableView = tableView
         self.items = items
         self.cellIdentifier = cellIdentifier?.rawValue
         self.tableViewRowHeight = height
-        self.isFromType = isFromType
     }
     
     override init() {

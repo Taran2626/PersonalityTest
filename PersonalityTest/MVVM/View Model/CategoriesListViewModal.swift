@@ -9,31 +9,37 @@
 import Foundation
 import UIKit
 
-protocol CategoryListener: class {
-    func reloadData(value :Any?)
-    func showErrorMessage(error :String?)
-}
-
 class CategoriesListViewModal {
     
-    weak var delegate: CategoryListener?
+    weak var service: QuestionsServiceProtocol?
+    
+    var onErrorHandling : ((String?) -> Void)?
+    var onSuccess : ((Any?) -> Void)?
+    
+    init(service: QuestionsServiceProtocol = FileDataService.shared) { // change to API Call Service if necessary
+        self.service = service
+    }
     
     //MARK:- getQuestionsList
     
     func getQuestionsList(){
         
-        APIManager.shared.request(with: APIEndpoint.getQuestions) {[weak self] (response) in
+        guard let service = service else {
+            onErrorHandling?(StaticString.missingService)
+            return
+        }
+        
+        service.request(with: APIEndpoint.getQuestions) {[weak self] (response) in
             switch response {
             case .success(let list):
                 guard let arrayTemp = list as? QuestionModal else {return}
-                self?.delegate?.reloadData(value: arrayTemp)
+                self?.onSuccess?(arrayTemp)
             case .failure(let error):
-                self?.delegate?.showErrorMessage(error: error.localizedDescription)
+                self?.onErrorHandling?(error.localizedDescription)
                 
             }
             
         }
-        
     }
     
 }

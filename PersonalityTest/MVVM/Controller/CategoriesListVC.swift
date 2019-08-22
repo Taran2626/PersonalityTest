@@ -18,13 +18,31 @@ class CategoriesListVC: BaseVC {
     //MARK:- viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupTableview()
         setupData()
+        
     }
     
     //MARK:- setupData
     func setupData(){
-        setupTableview()
-        viewModel.delegate = self
+        
+        viewModel.onErrorHandling = {error in
+            
+            UtilityFunctions.shared.show(alert: StaticString.opps, message: error , buttonOk: {
+            }, viewController: self, buttonTextOK: StaticString.ok, buttonTextCancel: StaticString.retry, buttonCancel:{[weak self] in
+                self?.viewModel.getQuestionsList()
+            })
+        }
+        
+        viewModel.onSuccess = {[weak self] value in
+            self?.questionModal = value as? QuestionModal
+            self?.dataSource?.items = self?.questionModal?.categories
+            DispatchQueue.main.async {[weak self] in
+                self?.dataSource?.tableView?.reloadData()
+            }
+        }
+        
         viewModel.getQuestionsList()
     }
 
@@ -57,28 +75,7 @@ extension CategoriesListVC {
     }
 }
 
-//MARK:- CategoryApiListener
-extension CategoriesListVC : CategoryListener {
-    
-    func reloadData(value :Any?){ // reload data to screen
-        questionModal = value as? QuestionModal
-        dataSource?.items = questionModal?.categories
-        DispatchQueue.main.async {[weak self] in
-            self?.dataSource?.tableView?.reloadData()
-        }
-    }
-    
-    
-    func showErrorMessage(error :String?){ // show error message
-        UtilityFunctions.shared.show(alert: StaticString.opps, message: error , buttonOk: {
-        }, viewController: self, buttonTextOK: StaticString.ok, buttonTextCancel: StaticString.retry, buttonCancel:{[weak self] in
-            self?.viewModel.getQuestionsList()
-        })
-        
-    }
-}
-
-//MARK:- prepare for segue
+//MARK:- Prepare for segue
 extension CategoriesListVC {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         (segue.destination as? QuestionVC)?.questionArray = getQuestions(index: /(sender as? IndexPath)?.row)

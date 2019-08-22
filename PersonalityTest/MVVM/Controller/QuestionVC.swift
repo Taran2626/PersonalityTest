@@ -24,34 +24,26 @@ class QuestionVC: BaseVC {
     //MARK:- viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupData()
+        
         setupTableview()
-        viewModel.delegate = self
-    }
-}
-
-//MARK:- setupTableview
-extension QuestionVC {
-    
-    func setupTableview(){
-        dataSource = TableViewDataSource(items: questionArray?[currentIndex].questionType?.options , height: 56, tableView: tableView, cellIdentifier: .QuestionCell)
+        setupData()
         
-        dataSource?.configureCellBlock = {(cell,item,indexPath) in
-            (cell as? UITableViewCell)?.textLabel?.text = (item as? String)?.capitalized
-            (cell as? UITableViewCell)?.accessoryType = indexPath.row == self.questionArray?[self.currentIndex].questionType?.selectedAnswer ? .checkmark : .none
+        viewModel.onErrorHandling = {error in
             
+            UtilityFunctions.shared.show(alert: StaticString.opps, message: error , buttonOk: {
+            }, viewController: self, buttonTextOK: StaticString.ok, buttonTextCancel: StaticString.retry, buttonCancel:{[unowned self] in
+                self.actionBtnSubmit(self.btnSubmit)
+            })
         }
         
-        dataSource?.aRowSelectedListener = {[unowned self](indexPath) in
-            self.questionArray?[self.currentIndex].questionType?.selectedAnswer = indexPath.row
-            self.dataSource?.items = self.questionArray?[self.currentIndex].questionType?.options
-            self.tableView.reloadData()
-            self.checkIfQuestionAnswered()
+        viewModel.onSuccess = {value in
+            UtilityFunctions.shared.show(alert: StaticString.success , message: StaticString.questionSubitMsg, buttonOk: {[weak self] in
+                _ = self?.questionArray?.map({$0.questionType?.selectedAnswer = nil})
+                self?.navigationController?.popViewController(animated: true)
+                }, viewController: self, buttonTextOK: StaticString.ok , buttonTextCancel: nil, buttonCancel: nil)
             
         }
-        
     }
-    
 }
 
 //MARK:- setupUI elements
@@ -77,27 +69,6 @@ extension QuestionVC{
         lblQuestion?.text = "Q\(currentIndex + 1) : " + "\(/questionArray?[currentIndex].question)"
         navigationItem.title = /questionArray?[currentIndex].category?.capitalized
         setNavAttempsTitle()
-    }
-}
-
-//MARK:- QuestionViewModalListener
-extension QuestionVC : QuestionViewModalListener {
-    
-    func reloadData(value :Any?){ // reload data and back to category screen
-        
-        UtilityFunctions.shared.show(alert: StaticString.success , message: StaticString.questionSubitMsg, buttonOk: {[weak self] in
-            _ = self?.questionArray?.map({$0.questionType?.selectedAnswer = nil})
-            self?.navigationController?.popViewController(animated: true)
-        }, viewController: self, buttonTextOK: StaticString.ok , buttonTextCancel: nil, buttonCancel: nil)
-       
-    }
-    
-    
-    func showErrorMessage(error :String?){ // show error message
-        UtilityFunctions.shared.show(alert: StaticString.opps, message: error , buttonOk: {
-        }, viewController: self, buttonTextOK: StaticString.ok, buttonTextCancel: StaticString.retry, buttonCancel:{[unowned self] in
-            self.actionBtnSubmit(self.btnSubmit)
-        })
         
     }
     
@@ -105,6 +76,30 @@ extension QuestionVC : QuestionViewModalListener {
         btnNext.isEnabled = questionArray?[currentIndex].questionType?.selectedAnswer != nil && currentIndex != (/questionArray?.count - 1)
         self.btnSubmit.isHidden = !(questionArray?[currentIndex].questionType?.selectedAnswer != nil && currentIndex == (/questionArray?.count - 1))
     }
+}
+
+//MARK:- setupTableview
+extension QuestionVC {
+    
+    func setupTableview(){
+        dataSource = TableViewDataSource(items: questionArray?[currentIndex].questionType?.options , height: 56, tableView: tableView, cellIdentifier: .QuestionCell)
+        
+        dataSource?.configureCellBlock = {(cell,item,indexPath) in
+            (cell as? UITableViewCell)?.textLabel?.text = (item as? String)?.capitalized
+            (cell as? UITableViewCell)?.accessoryType = indexPath.row == self.questionArray?[self.currentIndex].questionType?.selectedAnswer ? .checkmark : .none
+            
+        }
+        
+        dataSource?.aRowSelectedListener = {[unowned self](indexPath) in
+            self.questionArray?[self.currentIndex].questionType?.selectedAnswer = indexPath.row
+            self.dataSource?.items = self.questionArray?[self.currentIndex].questionType?.options
+            self.tableView.reloadData()
+            self.checkIfQuestionAnswered()
+            
+        }
+        
+    }
+    
 }
 
 //MARK:- IBAction

@@ -29,7 +29,8 @@ struct StaticString {
     static let notAvailable = "not available"
     static let success = "Success"
     static let questionSubitMsg = "Your answer are submitted"
-    
+    static let missingService = "Missing service"
+
 }
 
 struct SegueString {
